@@ -1,0 +1,26 @@
+Package: clusteringTables
+Type: Package
+Title: Clusters >>> Smaller Groups
+Version: 0.1.0
+Author: person("Ethan", "Taft", email = "taft.ethan@gmail.com",
+               role = c("aut", "cre"))
+Maintainer: The package maintainer <taft.ethan@gmail.com>
+Description: A package to assign cluster members to groups of specific sizes
+    while keeping cluster members together.
+License: file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends:
+    magrittr
+Imports:
+    cluster,
+    dplyr,
+    ggplot2,
+    plyr,
+    purrr,
+    Rtsne,
+    stats,
+    tidyverse
+Suggests:
+    testthat
+RoxygenNote: 6.0.1

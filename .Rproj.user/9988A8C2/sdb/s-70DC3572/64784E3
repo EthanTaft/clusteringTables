@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "####### MAYBE CLUSTERING WILL BE GOOD THIS TIMEset.seed(1987)\nn = 350\nclust_dat <-\n  data.frame(personId = 1:n,\n             networkPref = sample(c(\"topic\", \"jobtitle\", \"orgtype\"),\n                                  size = n, replace = TRUE),\n             Age = sample(23:65, size = n, replace = TRUE),\n             familyImp = sample(c(1, 2, 3, 4, 5), size = n, replace = TRUE,\n                                prob = c(0.01, 0.02, 0.4, 0.10, 0.83)),\n             howOld = sample(1:100, size = n, replace = TRUE),\n             horror = sample(c(\"Yes\", \"No\"), size = n, replace = TRUE,\n                             prob = c(0.27, 0.73)),\n             sailBoat = sample(c(\"Yes\", \"No\"), size = n, replace = TRUE,\n                               prob = c(0.58, 0.42)))\n\nclust_dat$familyImp <- factor(clust_dat$familyImp,\n                              levels = c(\"1\", \"2\", \"3\", \"4\", \"5\"),\n                              ordered = TRUE)\n\n\nb <- computeGowerDiss(clust_dat, id = \"personId\")\nc <- silWidth(df = clust_dat, gowerDiss = b$gower_diss, tableSize = 9)\nd <- buildPamModel(dissimilarities = b$gower_diss, silWidths = c$widths)\n\n\n# clusterSummary(clust_dat, id = \"personId\", d)\ne <- plotClustering(clust_dat, gowerDiss = b$gower_diss, id = \"personId\",\n                    pam_fit = d)\nf <- gatherTables(df = clust_dat, id = \"personId\", pam_model = d, tableSize = 9)\n\n# User Invovlement will most likely be required here (with 99.99% probability)\nloTidyFrames <- list(rbind(f$notFull[[1]], f$notFull[[2]], f$notFull[[5]]))\nloTidyFrames2 <- list(rbind(f$notFull[[3]], f$notFull[[4]]))\nallTables <- c(f$fullTables, loTidyFrames, loTidyFrames2)\n\n#get a nice dataframe at the end to work with\ng <- assembleToDf(tableList = allTables, df = clust_dat, id = \"personId\",\n                       tsne_results = e$tsneDat)\n\n#Plot distribution of tables among clusters\nplotTables(merged_data = g$dfComplete)\n\n#get performance Metrics\nh <- perfMetrics(merged_data = g$dfComplete)\nh$finalDf\n\n",
+    "created" : 1504289159618.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "902857354",
+    "id" : "64784E3",
+    "lastKnownWriteTime" : 1504624544,
+    "last_content_update" : 1504624544330,
+    "path" : "C:/DataScience/HASCluster/clustering with package.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
