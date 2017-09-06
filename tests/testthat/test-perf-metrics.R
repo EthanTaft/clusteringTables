@@ -1,4 +1,4 @@
-context("Testing perfMetrics is working correclty")
+context("Testing perfMetrics is working correctly")
 
 test_that("perfMetrics returns correct mostCommon value", {
   set.seed(1987)
