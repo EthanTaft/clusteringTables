@@ -1,7 +1,10 @@
-#' Animation of plotting PAM cluster results in 2D space using t-SNE
+#' Create slides of tsne process for use in animations
 #'
 #' This function allows user to plot cluster results from a PAM object using
-#' t-distributed stochastic neighborhood embedding.
+#' t-distributed stochastic neighborhood embedding. Several slides are created
+#' based on the number of iterations specified. E.g. If you specify 1000
+#' iterations, the slides created will be tsne results from 1, 10, 20, 30, 40,
+#' and so on up to 1000 iterations.
 #' @param df Data frame from which dissimilarities were calculated
 #' @param gowerDiss gower dissimilarities to use
 #' @param id ids from original data
@@ -13,7 +16,7 @@
 #' @import graphics
 #' @import ggplot2
 #' @export
-createTsneAnimation <- function(df, gowerDiss, id, pam_fit, iterations) {
+createTsneSlides <- function(df, gowerDiss, id, pam_fit, iterations) {
   set.seed(1000)
   for (i in seq(1, iterations, 10)) {
     tsne_obj <- Rtsne::Rtsne(gowerDiss, is_distance = TRUE, max_iter = i)
