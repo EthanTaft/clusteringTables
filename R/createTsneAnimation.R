@@ -6,6 +6,7 @@
 #' @param gowerDiss gower dissimilarities to use
 #' @param id ids from original data
 #' @param pam_fit PAM object from building a PAM clustering model
+#' @param iterations Number of iterations for tsne
 #' @keywords t-SNE, plot clustering, dimensionality reduction
 #' @import magrittr
 #' @import stats
