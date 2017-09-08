@@ -11,8 +11,9 @@
 #' referred to as leftOvers.
 gatherTables <- function(df, id, pam_model, tableSize) {
   df$cluster <- pam_model$clustering
-  datframe <- data.frame("personId" = df[[id]],
+  datframe <- data.frame("id" = df[[id]],
                    "cluster" = df$cluster)
+  names(datframe)[1] <- id
   # Put each cluster, as a dataframe, into a list.
   clusterList <- split(datframe, datframe$cluster)
 
