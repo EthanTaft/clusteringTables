@@ -14,9 +14,11 @@
 #' @export
 plotClustering <- function(df, gowerDiss, id, pam_fit) {
   if (nrow(df) - 1 < 3 * 30) {
-    perplexity = (nrow(df) - 1) / 3
+    perplex = (nrow(df) - 1) / 3
+    tsne_obj <- Rtsne::Rtsne(gowerDiss, is_distance = TRUE, perplexity = perplex)
+  } else {
+    tsne_obj <- Rtsne::Rtsne(gowerDiss, is_distance = TRUE)
   }
-  tsne_obj <- Rtsne::Rtsne(gowerDiss, is_distance = TRUE, perplexity = (nrow(df) - 1)/3)
   tsne_data <-
     tsne_obj$Y %>%
     data.frame %>%
