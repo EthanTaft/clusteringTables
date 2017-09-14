@@ -79,35 +79,46 @@ gatherTables <- function(df, id, pam_model, tableSize) {
     }
   }
 
-  sameSize <- c(allSameCluster, y5)
+    sameSize <- c(allSameCluster, y5)
   #split leftOvers into nice size groups to add together while making sure that
   #there are no splits that produce a 1.
 
-  leftOversA <- list()
+  if (length(leftOvers != 0)) {
 
-  for (i in 1:length(leftOvers)) {
-    if (tableSize == 8 || tableSize == 9) {
-      keep <- c(1:3, 6:8)
-      split <- c(4:5)
-    } else if (tableSize == 10) {
-      keep <- c(1:4, 7:9)
-      split <- c(5:6)
-    } else if (tableSize == 11) {
-      keep <- c(1:5, 8:10)
-      split <- c(6:7)
-    } else if (tableSize == 12) {
-      keep <- c(1:6, 9:11)
-      split <- c(7:8)
+      leftOversA <- list()
+
+      for (i in 1:length(leftOvers)) {
+        if (tableSize == 8 || tableSize == 9)  {
+          keep <- c(1:3, 6:8)
+          split <- c(4:5)
+        } else if (tableSize == 10) {
+          keep <- c(1:4, 7:9)
+          split <- c(5:6)
+        } else if (tableSize == 11) {
+          keep <- c(1:5, 8:10)
+          split <- c(6:7)
+        } else if (tableSize == 12) {
+          keep <- c(1:6, 9:11)
+          split <- c(7:8)
+        } else if (tableSize %in% c(6, 7)) {
+          keep <- c(1:2, 5:7)
+          split <- (3:4)
+        }
+        if (nrow(leftOvers[[i]]) %in% keep) {
+          spl <- split(leftOvers[[i]], sample(rep(1)))
+          leftOversA[[i]] <- spl
+        } else if (nrow(leftOvers[[i]]) %in% split) {
+          spl <- split(leftOvers[[i]], sample(rep(2)))
+          leftOversA[[i]] <- spl
+        }
+        leftOvers2 <- unlist(leftOversA, recursive = FALSE)
+      }
+
+    } else  {
+      stopFull <- c(allSameCluster, y5)
+      return(list(fullTables = lapply(stopFull, data.frame),
+                  leftOvers = "No Leftover Tables"))
     }
-    if (nrow(leftOvers[[i]]) %in% keep) {
-      spl <- split(leftOvers[[i]], sample(rep(1)))
-      leftOversA[[i]] <- spl
-    } else if (nrow(leftOvers[[i]]) %in% split) {
-      spl <- split(leftOvers[[i]], sample(rep(2)))
-      leftOversA[[i]] <- spl
-    }
-    leftOvers2 <- unlist(leftOversA, recursive = FALSE)
-  }
 
   #Deal with the Leftovers
   listIndex2 <- 1
@@ -160,7 +171,9 @@ gatherTables <- function(df, id, pam_model, tableSize) {
     } else if (tableSize == 12) {
       keep <- c(1:8)
       split <- c(9:11, 13:15)
-    }
+    } else if (tableSize %in% c(6, 7)) {
+      keep <- c(1:3, 6:7)
+      split <- (4:5)}
     if (nrow(clusterListB[[i]]) %in% keep) {
       spl <- split(clusterListB[[i]], sample(rep(1)))
       leftOversB[[i]] <- spl
